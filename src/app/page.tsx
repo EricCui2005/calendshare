@@ -10,25 +10,25 @@ export default function Home(){
   return (
     <>
       <Scheduler
-        events={events}
-        selected={selected}
-        setSelected={setSelected}
-        onRequestAdd={(evt) => addEvent(evt)}
-        onRequestEdit={(evt) => alert("Edit element requested")}
-        style={{
-          container: {
-            width: "800px",
-            height: "800px",
-            color: "black"
-          },
-          head: {
-            // TODO
-          },
-          body: {
-            // TODO
-          }
-        }}
-      />
+          events={events}
+          selected={selected}
+          setSelected={setSelected}
+          onRequestAdd={(evt) => addEvent(evt)}
+          onRequestEdit={(evt) => alert("Edit element requested")}
+          style={{
+            container: {
+              width: "100%",
+              height: "100%",
+              color: "black"
+            },
+            head: {
+              // TODO
+            },
+            body: {
+              // TODO
+            }
+          }}
+        />
     </>
   );
 }
