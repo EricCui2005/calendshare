@@ -9,24 +9,7 @@ export default function Home(){
 
   return (
     <>
-      <Calendar
-        selected={selected}
-        setSelected={setSelected}
-        style={{
-          container: {
-            width: "600px",
-            height: "600px",
-            color: "black"
-          },
-          head: {
-
-          },
-          body: {
-
-          }
-        }}
-      />
-      {/* <Scheduler
+      <Scheduler
         events={events}
         selected={selected}
         setSelected={setSelected}
@@ -34,22 +17,18 @@ export default function Home(){
         onRequestEdit={(evt) => alert("Edit element requested")}
         style={{
           container: {
-            width: "600px",
-            height: "600px",
+            width: "800px",
+            height: "800px",
             color: "black"
           },
           head: {
-            width: "600px",
-            height: "600px",
-            color: "black"
+            // TODO
           },
           body: {
-            width: "600px",
-            height: "600px",
-            color: "black"
+            // TODO
           }
         }}
-      /> */}
+      />
     </>
   );
 }
