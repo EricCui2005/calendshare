@@ -12,14 +12,27 @@ export default function Home(){
       <Calendar
         selected={selected}
         setSelected={setSelected}
+        style={{
+          container: {
+            width: "600px",
+            height: "600px",
+            color: "black"
+          },
+          head: {
+            
+          },
+          body: {
+
+          }
+        }}
       />
-      <Scheduler
+      {/* <Scheduler
         events={events}
         selected={selected}
         setSelected={setSelected}
         onRequestAdd={(evt) => addEvent(evt)}
         onRequestEdit={(evt) => alert("Edit element requested")}
-      />
+      /> */}
     </>
   );
 }
