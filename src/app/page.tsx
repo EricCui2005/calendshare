@@ -19,7 +19,7 @@ export default function Home(){
             color: "black"
           },
           head: {
-            
+
           },
           body: {
 
@@ -32,6 +32,23 @@ export default function Home(){
         setSelected={setSelected}
         onRequestAdd={(evt) => addEvent(evt)}
         onRequestEdit={(evt) => alert("Edit element requested")}
+        style={{
+          container: {
+            width: "600px",
+            height: "600px",
+            color: "black"
+          },
+          head: {
+            width: "600px",
+            height: "600px",
+            color: "black"
+          },
+          body: {
+            width: "600px",
+            height: "600px",
+            color: "black"
+          }
+        }}
       /> */}
     </>
   );
