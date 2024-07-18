@@ -13,6 +13,7 @@ export default function Home(){
   const [felicity, setFelicity] = useState(false);
   const [annie, setAnnie] = useState(false);
 
+  // Checkbox updating
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.id === "ericCheck") {
           setEric(!eric);
@@ -37,7 +38,23 @@ export default function Home(){
               events={events}
               selected={selected}
               setSelected={setSelected}
-              onRequestAdd={(evt) => addEvent(evt)}
+              onRequestAdd={(evt) => {
+                var color;
+                if (eric) {
+                  color = "blue";
+                }
+                if (felicity) {
+                  color = "green";
+                }
+                if (annie) { 
+                  color = "red";
+                }
+                evt.style={
+                  color: "white",
+                  backgroundColor: color
+                }
+                addEvent(evt)
+              }}
               onRequestEdit={(evt) => alert("Edit element requested")}
               style={{
                 container: {
