@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, Scheduler, useArrayState } from "@cubedoodl/react-simple-scheduler";
 import { Checkbox, FormGroup, FormControlLabel } from "@mui/material";
 
@@ -36,6 +36,20 @@ export default function Home(){
       }
   }
 
+  useEffect(() => {
+    let tempEvents: any[] = [];
+    if (eric) {
+      tempEvents = tempEvents.concat(ericEvents);
+    }
+    if (felicity) {
+      tempEvents = tempEvents.concat(felicityEvents);
+    }
+    if (annie) {
+      tempEvents = tempEvents.concat(annieEvents);
+    }
+    setEvents(tempEvents);
+  }, [eric, felicity, annie])
+
   return (
     <>
     <div className="flex justify-end items-center gap-10">
@@ -47,7 +61,7 @@ export default function Home(){
         <option value="Felicity">Felicity</option>
         <option value="Annie">Annie</option>
       </select>
-      <FormGroup className="testBorder h-100">
+      <FormGroup className="h-100">
         <FormControlLabel control={<Checkbox size="large" id="ericCheck" onChange={handleClick}/>} label="Eric" />
         <FormControlLabel control={<Checkbox size="large" id="felicityCheck" onChange={handleClick}/>} label="Felicity" />
         <FormControlLabel control={<Checkbox size="large" id="annieCheck" onChange={handleClick}/>} label="Annie" />
