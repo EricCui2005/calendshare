@@ -6,12 +6,22 @@ import { Checkbox, FormGroup, FormControlLabel } from "@mui/material";
 
 export default function Home(){
   const [selected, setSelected] = useState(new Date());
+
+  // Master event array to render selected events
   const [events, setEvents, addEvent] = useArrayState(null);
 
-  // Temporary checks 
+  // Temporary events to store individual events
+  const [ericEvents, setEricEvents, addEricEvent] = useArrayState(null);
+  const [felicityEvents, setFelicityEvents, addFelicityEvent] = useArrayState(null);
+  const [annieEvents, setAnnieEvents, addAnnieEvent] = useArrayState(null);
+
+  // Temporary manual checks for each checkbox
   const [eric, setEric] = useState(false);
   const [felicity, setFelicity] = useState(false);
   const [annie, setAnnie] = useState(false);
+
+  // Storing the calendar user
+  const [user, setUser] = useState("Eric");
 
   // Checkbox updating
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,29 +39,48 @@ export default function Home(){
   return (
     <>
     <div className="flex justify-end items-center gap-10">
+      <select
+        value={user}
+        onChange={(e) => setUser(e.target.value)}
+      >
+        <option value="Eric">Eric</option>
+        <option value="Felicity">Felicity</option>
+        <option value="Annie">Annie</option>
+      </select>
       <FormGroup className="testBorder h-100">
         <FormControlLabel control={<Checkbox size="large" id="ericCheck" onChange={handleClick}/>} label="Eric" />
         <FormControlLabel control={<Checkbox size="large" id="felicityCheck" onChange={handleClick}/>} label="Felicity" />
         <FormControlLabel control={<Checkbox size="large" id="annieCheck" onChange={handleClick}/>} label="Annie" />
       </FormGroup>
       <Scheduler
+              
+              // This is horrendous. I promise to fix it
               events={events}
               selected={selected}
               setSelected={setSelected}
               onRequestAdd={(evt) => {
-                var color;
-                if (eric) {
-                  color = "blue";
-                }
-                if (felicity) {
-                  color = "green";
-                }
-                if (annie) { 
-                  color = "red";
-                }
-                evt.style={
-                  color: "white",
-                  backgroundColor: color
+                switch (user) {
+                  case 'Eric':
+                    evt.style={
+                      color: "white",
+                      backgroundColor: "blue"
+                    }
+                    addEricEvent(evt)
+                    break;
+                  case 'Felicity':
+                    evt.style={
+                      color: "white",
+                      backgroundColor: "green"
+                    }
+                    addFelicityEvent(evt)
+                    break;
+                  case 'Annie':
+                  evt.style={
+                    color: "white",
+                    backgroundColor: "red"
+                  }
+                  addAnnieEvent(evt)
+                  break;
                 }
                 addEvent(evt)
               }}
