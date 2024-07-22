@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Calendar, Scheduler, useArrayState } from "@cubedoodl/react-simple-scheduler";
-import { Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+import { Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 
 export default function Home(){
   const [selected, setSelected] = useState(new Date());
@@ -22,6 +22,9 @@ export default function Home(){
 
   // Storing the calendar user
   const [user, setUser] = useState("Eric");
+
+  // Checking if the filter is checked
+  const [filter, setFilter] = useState(false);
 
   // Checkbox updating
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +64,9 @@ export default function Home(){
         <option value="Felicity">Felicity</option>
         <option value="Annie">Annie</option>
       </select>
+      <button className={`border p-2 rounded-md text-white ${
+        filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
+      }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
       <FormGroup className="h-100">
         <FormControlLabel control={<Checkbox size="large" id="ericCheck" onChange={handleClick}/>} label="Eric" />
         <FormControlLabel control={<Checkbox size="large" id="felicityCheck" onChange={handleClick}/>} label="Felicity" />
@@ -104,7 +110,7 @@ export default function Home(){
                   width: "80%",
                   height: "100%",
                   color: "black",
-                  border: "1px solid black",
+                  padding: "20px"
                 },
                 head: {
                   // TODO
