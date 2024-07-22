@@ -15,43 +15,54 @@ export default function Home(){
   const [felicityEvents, setFelicityEvents, addFelicityEvent] = useArrayState(null);
   const [annieEvents, setAnnieEvents, addAnnieEvent] = useArrayState(null);
 
-  // Temporary manual checks for each checkbox
-  const [eric, setEric] = useState(false);
-  const [felicity, setFelicity] = useState(false);
-  const [annie, setAnnie] = useState(false);
+  // Dictionary state variable to store booleans dictating whether the corresponding user's events should be displayed
+  const [filterStates, setFilterStates] = useState<{ [key: string]: boolean }>({
+    "Eric": false,
+    "Felicity": false,
+    "Annie": false
+  });
 
   // Storing the calendar user
   const [user, setUser] = useState("Eric");
 
-  // Checking if the filter is checked
+  // Checking if the filter button is checked
   const [filter, setFilter] = useState(false);
 
-  // Checkbox updating
+  // Editing the truth values of the filter states
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.id === "ericCheck") {
-          setEric(!eric);
+      let filterKey = "";
+      if (e.target.id === "EricCheck") {
+          filterKey = "Eric"
       }
-      if (e.target.id === "felicityCheck") {
-          setFelicity(!felicity);
+      if (e.target.id === "FelicityCheck") {
+          filterKey = "Felicity"
       }
-      if (e.target.id === "annieCheck") {
-          setAnnie(!annie);
+      if (e.target.id === "AnnieCheck") {
+          filterKey = "Annie"
       }
+      setFilterStates(prevState => ({
+        ...prevState,
+        [filterKey]: !prevState[filterKey]
+      }));
   }
 
+  // Event filtering
   useEffect(() => {
+    console.log(filterStates)
     let tempEvents: any[] = [];
-    if (eric) {
+    if (filterStates["Eric"]) {
       tempEvents = tempEvents.concat(ericEvents);
     }
-    if (felicity) {
+    if (filterStates["Felicity"]) {
       tempEvents = tempEvents.concat(felicityEvents);
     }
-    if (annie) {
+    if (filterStates["Annie"]) {
       tempEvents = tempEvents.concat(annieEvents);
     }
     setEvents(tempEvents);
-  }, [eric, felicity, annie])
+  }, [filterStates])
+
+  
 
   return (
     <>
@@ -68,9 +79,9 @@ export default function Home(){
         filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
       }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
       <FormGroup className="h-100">
-        <FormControlLabel control={<Checkbox size="large" id="ericCheck" onChange={handleClick}/>} label="Eric" />
-        <FormControlLabel control={<Checkbox size="large" id="felicityCheck" onChange={handleClick}/>} label="Felicity" />
-        <FormControlLabel control={<Checkbox size="large" id="annieCheck" onChange={handleClick}/>} label="Annie" />
+        <FormControlLabel control={<Checkbox size="large" id="EricCheck" onChange={handleClick}/>} label="Eric" />
+        <FormControlLabel control={<Checkbox size="large" id="FelicityCheck" onChange={handleClick}/>} label="Felicity" />
+        <FormControlLabel control={<Checkbox size="large" id="AnnieCheck" onChange={handleClick}/>} label="Annie" />
       </FormGroup>
       <Scheduler
               
