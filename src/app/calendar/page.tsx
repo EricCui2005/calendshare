@@ -29,7 +29,7 @@ export default function Home(){
   const [filter, setFilter] = useState(false);
 
   // Editing the truth values of the filter states
-  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterClick = (e: React.ChangeEvent<HTMLInputElement>) => {
       let filterKey = "";
       if (e.target.id === "EricCheck") {
           filterKey = "Eric"
@@ -62,6 +62,16 @@ export default function Home(){
     setEvents(tempEvents);
   }, [filterStates])
 
+  const userEventSave = () => {
+    eventToJSON();
+  }
+
+  const eventToJSON = () => {
+    events.forEach((event: Event) => {
+      JSON.stringify(event);
+    })
+  }
+
   
 
   return (
@@ -75,13 +85,17 @@ export default function Home(){
         <option value="Felicity">Felicity</option>
         <option value="Annie">Annie</option>
       </select>
-      <button className={`border p-2 rounded-md text-white ${
-        filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
-      }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
+      <div>
+        <button className={`border p-2 rounded-md text-white ${
+          filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
+        }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
+        <button onClick={() => userEventSave()} className="border border-black p-2 rounded-md text-black m-4" id="filter">Save</button>
+      </div>
+      
       <FormGroup className="h-100">
-        <FormControlLabel control={<Checkbox size="large" id="EricCheck" onChange={handleClick}/>} label="Eric" />
-        <FormControlLabel control={<Checkbox size="large" id="FelicityCheck" onChange={handleClick}/>} label="Felicity" />
-        <FormControlLabel control={<Checkbox size="large" id="AnnieCheck" onChange={handleClick}/>} label="Annie" />
+        <FormControlLabel control={<Checkbox size="large" id="EricCheck" onChange={handleFilterClick}/>} label="Eric" />
+        <FormControlLabel control={<Checkbox size="large" id="FelicityCheck" onChange={handleFilterClick}/>} label="Felicity" />
+        <FormControlLabel control={<Checkbox size="large" id="AnnieCheck" onChange={handleFilterClick}/>} label="Annie" />
       </FormGroup>
       <Scheduler
               
