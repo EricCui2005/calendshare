@@ -13,9 +13,17 @@ export default function Home(){
     }
     const handleUsernameSubmit = async (event: any) => {
         event.preventDefault();
-        const response = await fetch('api/test');
+        const response = await fetch('api/add-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: 'James'
+            })
+        });
         const result = await response.json();
-        console.log(result[0].message);
+        console.log(result);
     }
 
     // Temporary function to test querying
