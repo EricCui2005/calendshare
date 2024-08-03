@@ -62,17 +62,27 @@ export default function Home(){
     setEvents(tempEvents);
   }, [filterStates])
 
-  const userEventSave = () => {
-    eventToJSON();
-  }
-
-  const eventToJSON = () => {
-    events.forEach((event: Event) => {
-      JSON.stringify(event);
+  // Function to hit the add-events api endpoint
+  const userEventSave = async () => {
+    console.log(JSON.stringify(createEventSaveBody()))
+    const response = await fetch('api/add-events', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(createEventSaveBody())
     })
+    const result = await response.json();
+    console.log(result);
   }
 
-  
+  // Function to create the body object for the add-events request
+  const createEventSaveBody = () => {
+    return {
+      "user": user,
+      "events": events
+    }
+  }
 
   return (
     <>
