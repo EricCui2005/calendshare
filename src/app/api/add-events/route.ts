@@ -17,7 +17,7 @@ export async function POST(request: any)
         }
 
         // Querying and cnostructing response
-        const result = await sql`INSERT INTO events VALUES(${user}, ${events})`;
+        const result = await sql`UPDATE events SET data = ${events} WHERE name = ${user}`;
         return NextResponse.json(result, {status: 200});
     } catch (error: any) { // Error catching
         return NextResponse.json({ error: error.message }, { status: 500 });

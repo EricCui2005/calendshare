@@ -19,7 +19,7 @@ export default function Home(){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                username: 'James'
+                username: 'Felicity'
             })
         });
         const result = await response.json();

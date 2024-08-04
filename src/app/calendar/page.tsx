@@ -64,13 +64,21 @@ export default function Home(){
 
   // Function to hit the add-events api endpoint
   const userEventSave = async () => {
-    console.log(JSON.stringify(createEventSaveBody()))
+    console.log(JSON.stringify(createEventSaveBody()));
     const response = await fetch('api/add-events', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(createEventSaveBody())
+    })
+    const result = await response.json();
+    console.log(result);
+  }
+
+  const userEventLoad = async () => {
+    const response = await fetch('/api/get-events?user=Eric', {
+      method: "GET",
     })
     const result = await response.json();
     console.log(result);
@@ -100,6 +108,7 @@ export default function Home(){
           filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
         }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
         <button onClick={() => userEventSave()} className="border border-black p-2 rounded-md text-black m-4" id="filter">Save</button>
+        <button onClick={() => userEventLoad()} className="border border-black p-2 rounded-md text-black m-4" id="filter">Load</button>
       </div>
       
       <FormGroup className="h-100">
