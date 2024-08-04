@@ -80,7 +80,7 @@ export default function Home(){
   const createEventSaveBody = () => {
     return {
       "user": user,
-      "events": events
+      "events": JSON.stringify(events)
     }
   }
 
