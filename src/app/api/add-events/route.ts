@@ -5,15 +5,19 @@ export async function POST(request: any)
 {
     try {
 
-        // Extracting username from request body and validating
-        const { username } = await request.json();
-        if (!username) {
+        // Extracting username and serialized event object from request
+        const { user, events } = await request.json();
+
+        // Bad request catching
+        if (!user) {
             return NextResponse.json({error: "Username parameter required", status: 400});
         }
-        console.log(`Creating a new user with the username ${username}`);
+        if (!events) {
+            return NextResponse.json({error: "Events parameter required", status: 400});
+        }
 
         // Querying and cnostructing response
-        const result = await sql`INSERT INTO events (name) VALUES(${username})`;
+        const result = await sql`UPDATE events SET data = ${events} WHERE name = ${user}`;
         return NextResponse.json(result, {status: 200});
     } catch (error: any) { // Error catching
         return NextResponse.json({ error: error.message }, { status: 500 });

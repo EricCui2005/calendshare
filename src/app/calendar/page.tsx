@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { Calendar, Scheduler, useArrayState } from "@cubedoodl/react-simple-scheduler";
+import { Calendar, Scheduler, SchedulerExistingEvent, useArrayState } from "@cubedoodl/react-simple-scheduler";
 import { Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 
 export default function Home(){
@@ -29,7 +29,7 @@ export default function Home(){
   const [filter, setFilter] = useState(false);
 
   // Editing the truth values of the filter states
-  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterClick = (e: React.ChangeEvent<HTMLInputElement>) => {
       let filterKey = "";
       if (e.target.id === "EricCheck") {
           filterKey = "Eric"
@@ -62,7 +62,41 @@ export default function Home(){
     setEvents(tempEvents);
   }, [filterStates])
 
-  
+  // Function to hit the add-events api endpoint
+  const userEventSave = async () => {
+    console.log(JSON.stringify(createEventSaveBody()));
+    const response = await fetch('api/add-events', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(createEventSaveBody())
+    })
+    const result = await response.json();
+    console.log(result);
+  }
+
+  const userEventLoad = async () => {
+    const response = await fetch('/api/get-events?user=Eric', {
+      method: "GET",
+    })
+    const result = await response.json();
+    console.log(result.rows[0].data);
+    result.rows[0].data.forEach((event: SchedulerExistingEvent) => {
+      event.from = new Date(event.from);
+      event.to = new Date(event.to);
+    })
+    setEvents(result.rows[0].data)
+    console.log(events);
+  }
+
+  // Function to create the body object for the add-events request
+  const createEventSaveBody = () => {
+    return {
+      "user": user,
+      "events": JSON.stringify(events)
+    }
+  }
 
   return (
     <>
@@ -75,13 +109,18 @@ export default function Home(){
         <option value="Felicity">Felicity</option>
         <option value="Annie">Annie</option>
       </select>
-      <button className={`border p-2 rounded-md text-white ${
-        filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
-      }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
+      <div>
+        <button className={`border p-2 rounded-md text-white ${
+          filter ? 'bg-green-500 border-green-500 hover:bg-green-700 hover:bg-green-700' : 'bg-red-500 border-red-500 hover:bg-red--700 hover:border-red-500'
+        }`} id="filter" onClick={() => setFilter(!filter)}>Filter</button>
+        <button onClick={() => userEventSave()} className="border border-black p-2 rounded-md text-black m-4" id="filter">Save</button>
+        <button onClick={() => userEventLoad()} className="border border-black p-2 rounded-md text-black m-4" id="filter">Load</button>
+      </div>
+      
       <FormGroup className="h-100">
-        <FormControlLabel control={<Checkbox size="large" id="EricCheck" onChange={handleClick}/>} label="Eric" />
-        <FormControlLabel control={<Checkbox size="large" id="FelicityCheck" onChange={handleClick}/>} label="Felicity" />
-        <FormControlLabel control={<Checkbox size="large" id="AnnieCheck" onChange={handleClick}/>} label="Annie" />
+        <FormControlLabel control={<Checkbox size="large" id="EricCheck" onChange={handleFilterClick}/>} label="Eric" />
+        <FormControlLabel control={<Checkbox size="large" id="FelicityCheck" onChange={handleFilterClick}/>} label="Felicity" />
+        <FormControlLabel control={<Checkbox size="large" id="AnnieCheck" onChange={handleFilterClick}/>} label="Annie" />
       </FormGroup>
       <Scheduler
               
