@@ -6,8 +6,8 @@ export async function GET(request: any)
     try {
 
         // Extracting username and serialized event object from request
-        const url = new URL(request.url, `http://${request.headers.host}`);
-        const user = url.searchParams.get('user')
+        const url = new URL(request.url);
+        const user = url.searchParams.get('user');
 
         // Bad request catching
         if (!user) {

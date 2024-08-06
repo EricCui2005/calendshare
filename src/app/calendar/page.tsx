@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { Calendar, Scheduler, useArrayState } from "@cubedoodl/react-simple-scheduler";
+import { Calendar, Scheduler, SchedulerExistingEvent, useArrayState } from "@cubedoodl/react-simple-scheduler";
 import { Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 
 export default function Home(){
@@ -81,7 +81,13 @@ export default function Home(){
       method: "GET",
     })
     const result = await response.json();
-    console.log(result);
+    console.log(result.rows[0].data);
+    result.rows[0].data.forEach((event: SchedulerExistingEvent) => {
+      event.from = new Date(event.from);
+      event.to = new Date(event.to);
+    })
+    setEvents(result.rows[0].data)
+    console.log(events);
   }
 
   // Function to create the body object for the add-events request
