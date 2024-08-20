@@ -13,14 +13,17 @@ export default function Home(){
     return (
         <>
             <div className="flex flex-col gap-4 items-center justify-center w-screen h-screen">
-                <Link href="/calendar" className="border border-black p-2 rounded-md w-36 text-center">
-                    Calendar
+                <Link href="/landing/login-group" className="border border-black p-2 rounded-md w-36 text-center">
+                    Group Login
                 </Link>
                 <Link href="/landing/new-group" className="border border-black p-2 rounded-md w-36 text-center">
                     New Group
                 </Link>
                 <Link href="/landing/join-group" className="border border-black p-2 rounded-md w-36 text-center">
                     Join Group
+                </Link>
+                <Link href="/landing/test" className="border border-black p-2 rounded-md w-36 text-center">
+                    Test
                 </Link>
             </div>
         </>
