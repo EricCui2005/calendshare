@@ -20,8 +20,9 @@ export async function GET(request: any)
                                  FROM persons p
                                  JOIN groupmemberships gm ON p.personId = gm.personId
                                  WHERE gm.groupid = ${groupId};`;
+        const memberRows = result.rows;
 
-        return NextResponse.json(result.rows, {status: 200});
+        return NextResponse.json(memberRows, {status: 200});
     } catch (error: any) { // Error catching
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

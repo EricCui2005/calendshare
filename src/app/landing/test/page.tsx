@@ -9,14 +9,15 @@ export default function Home() {
     const { groupId } = useContext(MyContext);
 
     const getGroupMembers = async () => {
-        
+
         // Constructing request info
         const url = `../api/get-group-members?groupId=${groupId}`;
         const init = {
             method: "GET",
         };
         const result = await fetch(url, init);
-        console.log(result);
+        const groupMembers = await result.json();
+        console.log(groupMembers);
     }
     return (
         <>
