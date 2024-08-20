@@ -5,25 +5,17 @@ import { Calendar, Scheduler, SchedulerExistingEvent, useArrayState } from "@cub
 import { Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 
 export default function Home(){
-  const [selected, setSelected] = useState(new Date());
 
-  // Master event array to render selected events
+  // Current selected event and master event array
+  const [selected, setSelected] = useState(new Date());
   const [events, setEvents, addEvent] = useArrayState(null);
 
-  // Temporary events to store individual events
-  const [ericEvents, setEricEvents, addEricEvent] = useArrayState(null);
-  const [felicityEvents, setFelicityEvents, addFelicityEvent] = useArrayState(null);
-  const [annieEvents, setAnnieEvents, addAnnieEvent] = useArrayState(null);
+  // Array of user objects
+  // Each user object contains a name, an active state, and an array of events
+  const [users, setUsers, addUser] = useArrayState(null);
 
-  // Dictionary state variable to store booleans dictating whether the corresponding user's events should be displayed
-  const [filterStates, setFilterStates] = useState<{ [key: string]: boolean }>({
-    "Eric": false,
-    "Felicity": false,
-    "Annie": false
-  });
-
-  // Storing the calendar user
-  const [user, setUser] = useState("Eric");
+  // Current user of the calendar
+  const [user, setUser] = useState(null);
 
   // Checking if the filter button is checked
   const [filter, setFilter] = useState(false);
