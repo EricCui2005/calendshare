@@ -5,64 +5,69 @@ import { Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 import { MyContext } from "../../MyContext";
 
 export default function CalendarPage(){
+  console.log("Mounting");
 
   const { userId, groupId } = useContext(MyContext);
 
   const [groupMembers, setGroupMembers, addGroupMember] = useArrayState(null);
   const [selected, setSelected] = useState(new Date());
 
-  // Events of group members (excluding user)
-  const [memberEvents, setMemberEvents, addMemberEvent] = useArrayState(null);
+  // Separate arrays for events of members (exluding user), user, and all
+  const [memberEvents, setMemberEvents, addMemberEvent] = useArrayState(null); 
+  const [userEvents, setUserEvents, addUserEvent] = useArrayState(null); 
+  const [events, setEvents, addEvent] = useArrayState(null); 
 
-  // Events of user
-  const [userEvents, setUserEvents, addUserEvent] = useArrayState(null);
+  // Function to add events to corresponding arrays
+  const populateEventArrays = () => {
 
-  // All events
-  const [events, setEvents, addEvent] = useArrayState(null);
+    // Temporary storage arrays
+    const tempEvents: any = [];
+    const tempUserEvents: any = [];
+    const tempMemberEvents: any = [];
+
+    // Adding all group members events to corresponding arrays
+    groupMembers.forEach((member: any) => {
+      member.events?.forEach((event: SchedulerExistingEvent) => {
+        console.log(event);
+        event.from = new Date(event.from);
+        event.to = new Date(event.to);
+        tempEvents.push(event);
+        console.log(`All Events: ${events}`);
+        if (member.personid == userId) {
+          tempUserEvents.push(event);
+        } else {
+          tempMemberEvents.push(event);
+        }
+      })
+    });
+
+    // Batch updating arrays
+    setEvents(tempEvents);
+    setUserEvents(tempUserEvents);
+    setMemberEvents(tempMemberEvents);
+  }
 
   // Loading group member data once on mount
   useEffect(() => {
     const getGroupMembers = async () => {
-      
-      // Querying
       const url = `../api/get-group-members?groupId=${groupId}`;
       const init = {
         method: "GET"
       };
       const result = await fetch(url, init);
       const members = await result.json();
-
-      // Setting
       setGroupMembers(members);
     }
-
-    // Calling
     getGroupMembers();
   }, []);
 
-  // // Logging loaded group member data
-  // useEffect(() => {
-  //   console.log(groupMembers);
-  // }, [groupMembers]);
+  // Populating event arrays when group members are updated
+  useEffect(() => {
+    console.log(`Group members: ${groupMembers}`);
+    populateEventArrays();
+  }, [groupMembers]);
 
-  // Adding all group members events to corresponding arrays
-  groupMembers.forEach((member: any) => {
-
-    // Converting event data into SchedulerExistingEvent-readable format
-    member.events?.forEach((event: SchedulerExistingEvent) => {
-      event.from = new Date(event.from);
-      event.to = new Date(event.to);
-      
-      // Adding to correct event arrays
-      addEvent(event);
-      if (member.personid == userId) {
-        addUserEvent(event);
-      } else {
-        addMemberEvent(event);
-      }
-    })
-  });
-  
+  // Saving user events to DB
   const userEventSave = async () => {
     console.log(userId);
     console.log(JSON.stringify(createEventSaveBody()));
