@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { TextField } from "@mui/material";
 
-export default function Home(){
+export default function NewPerson(){
 
     const [formValues, setFormValues] = useState({
         username: null,
