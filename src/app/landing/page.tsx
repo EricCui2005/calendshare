@@ -4,7 +4,7 @@ import Link from "next/link";
 import { TextField } from "@mui/material";
 import { MyContext } from "../MyContext";
 
-export default function Home(){
+export default function Landing(){
 
     // Login id to be used throughout the application
     const { userId }  = useContext(MyContext);

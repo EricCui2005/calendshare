@@ -3,8 +3,9 @@ import React, { useState, useContext } from "react";
 import Link from "next/link";
 import { TextField } from "@mui/material";
 import { MyContext } from "../../MyContext";
+import { useRouter } from  "next/navigation";
 
-export default function Home(){
+export default function LoginGroup(){
 
     const [formValues, setFormValues] = useState({
         groupName: null,
@@ -12,6 +13,8 @@ export default function Home(){
     });
 
     const { userId, groupId, setGroupId}  = useContext(MyContext);
+
+    const router = useRouter();
 
     const handleInputChange = (e: any) => {
 
@@ -42,6 +45,8 @@ export default function Home(){
         const result = await response.json();
         console.log(result.groupid);
         setGroupId(result.groupid);
+
+        router.push("/landing/calendar");
     }
 
     return (

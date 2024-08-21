@@ -4,7 +4,7 @@ import Link from "next/link";
 import { TextField } from "@mui/material";
 import { MyContext } from "../../MyContext";
 
-export default function Home() {
+export default function Test() {
 
     const { groupId } = useContext(MyContext);
 
